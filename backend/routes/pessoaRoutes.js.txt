@@ -1,0 +1,9 @@
+const express = require('express');
+const pessoaController = require('../controllers/pessoaController');
+
+const router = express.Router();
+
+router.post('/pessoas', pessoaController.cadastrarPessoa);
+router.get('/pessoas', pessoaController.listarPessoas);
+
+module.exports = router;

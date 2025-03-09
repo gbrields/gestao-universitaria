@@ -1,0 +1,20 @@
+const Pessoa = require('../models/Pessoa');
+
+exports.cadastrarPessoa = (req, res) => {
+  const { nome, cpf, dataNascimento } = req.body;
+  Pessoa.criar(nome, cpf, dataNascimento, (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.status(201).json({ message: 'Pessoa cadastrada com sucesso!', id: results.insertId });
+  });
+};
+
+exports.listarPessoas = (req, res) => {
+  Pessoa.listar((err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.status(200).json(results);
+  });
+};

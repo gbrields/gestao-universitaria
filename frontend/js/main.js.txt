@@ -1,0 +1,40 @@
+document.addEventListener('DOMContentLoaded', () => {
+  const formCadastro = document.getElementById('form-cadastro');
+  if (formCadastro) {
+    formCadastro.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const nome = document.getElementById('nome').value;
+      const cpf = document.getElementById('cpf').value;
+      const dataNascimento = document.getElementById('dataNascimento').value;
+
+      fetch('http://localhost:3000/api/pessoas', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ nome, cpf, dataNascimento }),
+      })
+        .then(response => response.json())
+        .then(data => {
+          alert('Pessoa cadastrada com sucesso!');
+          window.location.href = 'index.html';
+        })
+        .catch(error => console.error('Erro:', error));
+    });
+  }
+
+  // Listar pessoas na página inicial
+  const listaPessoas = document.getElementById('lista-pessoas');
+  if (listaPessoas) {
+    fetch('http://localhost:3000/api/pessoas')
+      .then(response => response.json())
+      .then(data => {
+        data.forEach(pessoa => {
+          const div = document.createElement('div');
+          div.textContent = `Nome: ${pessoa.nome}, CPF: ${pessoa.cpf}`;
+          listaPessoas.appendChild(div);
+        });
+      })
+      .catch(error => console.error('Erro:', error));
+  }
+});
